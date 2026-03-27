@@ -3,19 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My HTML Portal</title>
+  <title>HTML Portal</title>
   <style>
     :root {
       --bg: #0b1020;
+      --bg-2: #0f172a;
       --panel: #121a2b;
       --panel-2: #18233a;
       --text: #e6edf7;
       --muted: #9fb0c8;
       --accent: #38bdf8;
-      --accent-2: #22c55e;
+      --accent-soft: rgba(56, 189, 248, 0.14);
+      --success-soft: rgba(34, 197, 94, 0.14);
       --border: rgba(255,255,255,0.08);
-      --shadow: 0 10px 30px rgba(0,0,0,0.25);
       --radius: 18px;
+      --shadow: 0 12px 34px rgba(0,0,0,0.28);
     }
 
     * {
@@ -25,7 +27,9 @@
     html, body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(180deg, #0b1020 0%, #0e1427 100%);
+      background:
+        radial-gradient(circle at top right, rgba(56,189,248,0.10), transparent 28%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
       color: var(--text);
       font-family: Inter, Arial, sans-serif;
     }
@@ -35,91 +39,109 @@
       text-decoration: none;
     }
 
-    .container {
-      max-width: 1280px;
+    .layout {
+      max-width: 1360px;
       margin: 0 auto;
-      padding: 32px 20px 60px;
+      padding: 28px 20px 60px;
     }
 
     .hero {
-      margin-bottom: 28px;
-      padding: 28px;
       border: 1px solid var(--border);
-      background: linear-gradient(135deg, rgba(56,189,248,0.08), rgba(34,197,94,0.05));
       border-radius: 24px;
+      padding: 28px;
+      background: linear-gradient(135deg, rgba(56,189,248,0.08), rgba(255,255,255,0.02));
       box-shadow: var(--shadow);
+      margin-bottom: 22px;
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: start;
+      flex-wrap: wrap;
     }
 
     .hero h1 {
       margin: 0 0 10px;
-      font-size: clamp(28px, 4vw, 44px);
+      font-size: clamp(28px, 4vw, 42px);
       line-height: 1.05;
     }
 
     .hero p {
       margin: 0;
       color: var(--muted);
-      font-size: 16px;
-      max-width: 800px;
+      max-width: 880px;
+      line-height: 1.6;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
     }
 
     .toolbar {
-      margin-top: 22px;
       display: grid;
-      grid-template-columns: 1.6fr 1fr auto;
+      grid-template-columns: 1.5fr 0.8fr auto;
       gap: 12px;
+      margin-top: 22px;
     }
 
     .search-box,
-    .select-box {
-      background: var(--panel);
-      border: 1px solid var(--border);
+    .select-box,
+    .action-btn {
+      width: 100%;
+      min-height: 48px;
       border-radius: 14px;
-      padding: 14px 16px;
+      border: 1px solid var(--border);
+      background: var(--panel);
       color: var(--text);
+      padding: 0 16px;
       font-size: 15px;
       outline: none;
-      width: 100%;
     }
 
     .search-box:focus,
     .select-box:focus {
       border-color: rgba(56,189,248,0.45);
-      box-shadow: 0 0 0 3px rgba(56,189,248,0.15);
+      box-shadow: 0 0 0 3px rgba(56,189,248,0.14);
     }
 
-    .refresh-btn {
-      border: 1px solid var(--border);
-      background: var(--panel);
-      color: var(--text);
-      border-radius: 14px;
-      padding: 0 18px;
+    .action-btn {
       cursor: pointer;
-      font-size: 15px;
       transition: 0.2s ease;
     }
 
-    .refresh-btn:hover {
+    .action-btn:hover {
       background: var(--panel-2);
-      border-color: rgba(56,189,248,0.4);
-    }
-
-    .meta-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin: 18px 2px 8px;
-      color: var(--muted);
-      font-size: 14px;
-      flex-wrap: wrap;
+      border-color: rgba(56,189,248,0.35);
     }
 
     .tag-row {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin: 18px 0 0;
+      margin-top: 18px;
     }
 
     .tag-btn {
@@ -135,24 +157,34 @@
 
     .tag-btn:hover,
     .tag-btn.active {
-      background: rgba(56,189,248,0.12);
+      background: var(--accent-soft);
       border-color: rgba(56,189,248,0.35);
-      color: #dff6ff;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 18px 2px 6px;
+      color: var(--muted);
+      font-size: 14px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 18px;
       margin-top: 20px;
     }
 
     .card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 18px;
-      min-height: 235px;
+      min-height: 260px;
       display: flex;
       flex-direction: column;
       box-shadow: var(--shadow);
@@ -161,54 +193,54 @@
 
     .card:hover {
       transform: translateY(-4px);
-      border-color: rgba(56,189,248,0.28);
+      border-color: rgba(56,189,248,0.3);
       background: linear-gradient(180deg, rgba(56,189,248,0.06), rgba(255,255,255,0.02));
     }
 
     .card-top {
       display: flex;
       justify-content: space-between;
-      gap: 10px;
+      gap: 12px;
       align-items: flex-start;
       margin-bottom: 10px;
     }
 
     .card-title {
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 1.2;
       margin: 0;
+      font-size: 20px;
+      line-height: 1.2;
+      font-weight: 700;
     }
 
     .card-path {
-      font-size: 12px;
-      color: var(--muted);
-      word-break: break-all;
       margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      word-break: break-all;
     }
 
     .badge {
       flex-shrink: 0;
       padding: 6px 10px;
       border-radius: 999px;
-      background: rgba(34,197,94,0.12);
-      color: #baf7cb;
-      border: 1px solid rgba(34,197,94,0.2);
       font-size: 12px;
+      background: var(--success-soft);
+      color: #c8f7d8;
+      border: 1px solid rgba(34,197,94,0.22);
     }
 
     .card-desc {
       color: var(--muted);
-      font-size: 14px;
       line-height: 1.55;
+      font-size: 14px;
       margin: 8px 0 14px;
       min-height: 44px;
     }
 
     .chips {
       display: flex;
-      gap: 8px;
       flex-wrap: wrap;
+      gap: 8px;
       margin-bottom: 14px;
     }
 
@@ -218,32 +250,25 @@
       padding: 6px 10px;
       background: rgba(255,255,255,0.04);
       border: 1px solid var(--border);
-      color: #d8e3f2;
+      color: #dce7f4;
     }
 
-    .match-box {
+    .snippet-box {
       margin-top: auto;
-      padding-top: 10px;
+      padding-top: 12px;
       border-top: 1px solid rgba(255,255,255,0.06);
     }
 
-    .match-label {
-      font-size: 12px;
+    .snippet-label {
       color: var(--muted);
+      font-size: 12px;
       margin-bottom: 6px;
     }
 
-    .match-snippet {
+    .snippet-text {
       font-size: 13px;
       line-height: 1.55;
       color: #dfe8f5;
-    }
-
-    mark {
-      background: rgba(56,189,248,0.22);
-      color: #ffffff;
-      padding: 0 2px;
-      border-radius: 4px;
     }
 
     .card-actions {
@@ -264,12 +289,12 @@
     }
 
     .btn-primary {
-      background: rgba(56,189,248,0.12);
+      background: var(--accent-soft);
       border-color: rgba(56,189,248,0.28);
     }
 
     .btn-primary:hover {
-      background: rgba(56,189,248,0.18);
+      background: rgba(56,189,248,0.2);
     }
 
     .btn-secondary {
@@ -280,50 +305,77 @@
       background: rgba(255,255,255,0.06);
     }
 
-    .empty-state,
-    .loading-state {
-      margin-top: 24px;
+    .state-box {
+      margin-top: 20px;
       border: 1px dashed var(--border);
-      background: rgba(255,255,255,0.02);
       border-radius: 18px;
       padding: 30px 20px;
       text-align: center;
       color: var(--muted);
+      background: rgba(255,255,255,0.02);
+    }
+
+    mark {
+      background: rgba(56,189,248,0.22);
+      color: #fff;
+      padding: 0 2px;
+      border-radius: 4px;
+    }
+
+    code {
+      background: rgba(255,255,255,0.05);
+      padding: 2px 6px;
+      border-radius: 8px;
     }
 
     .footer-note {
-      margin-top: 24px;
-      color: var(--muted);
-      font-size: 13px;
+      margin-top: 22px;
       text-align: center;
+      font-size: 13px;
+      color: var(--muted);
     }
 
     @media (max-width: 860px) {
       .toolbar {
         grid-template-columns: 1fr;
       }
-
-      .refresh-btn {
-        height: 48px;
-      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="layout">
     <section class="hero">
-      <h1>HTML Portal</h1>
-      <p>
-        A searchable landing page for all HTML files in this GitHub Pages repo.
-        Search by title, tags, description, or actual page content.
-      </p>
+      <div class="hero-top">
+        <div>
+          <h1>Searchable HTML Portal</h1>
+          <p>
+            Search across titles, tags, descriptions, and indexed page content from this GitHub Pages repo.
+            Edit <code>pages.json</code> whenever you add a new page.
+          </p>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-label">Total Pages</div>
+          <div class="stat-value" id="statTotal">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Indexed Pages</div>
+          <div class="stat-value" id="statIndexed">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Visible Results</div>
+          <div class="stat-value" id="statVisible">0</div>
+        </div>
+      </div>
 
       <div class="toolbar">
         <input
           id="searchInput"
           class="search-box"
           type="text"
-          placeholder="Search pages, tags, or content... (Press / to focus)"
+          placeholder="Search titles, tags, or page content... (press / to focus)"
         />
 
         <select id="sortSelect" class="select-box">
@@ -332,7 +384,7 @@
           <option value="title-desc">Sort: Title Z → A</option>
         </select>
 
-        <button id="refreshBtn" class="refresh-btn">Rebuild Search</button>
+        <button id="refreshBtn" class="action-btn">Rebuild Search</button>
       </div>
 
       <div id="tagFilters" class="tag-row"></div>
@@ -340,76 +392,40 @@
 
     <div class="meta-row">
       <div id="resultCount">Loading pages...</div>
-      <div id="statusText">Initializing search index...</div>
+      <div id="statusText">Loading pages.json...</div>
     </div>
 
-    <div id="loadingState" class="loading-state">
-      Fetching page content and building the search index...
-    </div>
-
+    <div id="loadingState" class="state-box">Loading metadata and indexing page content...</div>
+    <div id="emptyState" class="state-box" style="display:none;">No matching pages found.</div>
     <div id="grid" class="grid" style="display:none;"></div>
 
-    <div id="emptyState" class="empty-state" style="display:none;">
-      No matching pages found.
-    </div>
-
     <div class="footer-note">
-      Tip: edit the <code>PAGES</code> array in this file whenever you add a new HTML page.
+      Add or edit entries in <code>pages.json</code>. The dashboard will use them automatically.
     </div>
   </div>
 
   <script>
-    /*
-      1) Add every HTML page here
-      2) path must be relative to index.html
-      3) tags are optional but highly useful
-    */
-    const PAGES = [
-      {
-        title: "Home Dashboard",
-        path: "dashboard.html",
-        description: "Main dashboard and overview page.",
-        tags: ["dashboard", "home", "overview"]
-      },
-      {
-        title: "ES|QL Lab",
-        path: "labs/esql-lab.html",
-        description: "Hands-on ES|QL practice page.",
-        tags: ["elastic", "esql", "lab"]
-      },
-      {
-        title: "Security XSS Demo",
-        path: "security/xss-demo.html",
-        description: "XSS demo and notes.",
-        tags: ["security", "xss", "demo"]
-      },
-      {
-        title: "Detection Rules",
-        path: "detections/rules.html",
-        description: "Detection rules reference.",
-        tags: ["security", "detections", "rules"]
-      }
-    ];
-
     const state = {
-      pages: [],
+      allPages: [],
       query: "",
       activeTag: "all",
-      sortBy: "relevance",
-      indexing: false
+      sortBy: "relevance"
     };
 
-    const grid = document.getElementById("grid");
     const searchInput = document.getElementById("searchInput");
     const sortSelect = document.getElementById("sortSelect");
     const refreshBtn = document.getElementById("refreshBtn");
-    const resultCount = document.getElementById("resultCount");
-    const statusText = document.getElementById("statusText");
+    const tagFilters = document.getElementById("tagFilters");
+    const grid = document.getElementById("grid");
     const loadingState = document.getElementById("loadingState");
     const emptyState = document.getElementById("emptyState");
-    const tagFilters = document.getElementById("tagFilters");
+    const resultCount = document.getElementById("resultCount");
+    const statusText = document.getElementById("statusText");
+    const statTotal = document.getElementById("statTotal");
+    const statIndexed = document.getElementById("statIndexed");
+    const statVisible = document.getElementById("statVisible");
 
-    function escapeHtml(text) {
+    function escapeHtml(text = "") {
       return text
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
@@ -418,25 +434,22 @@
         .replaceAll("'", "&#039;");
     }
 
+    function normalize(text = "") {
+      return text.toLowerCase();
+    }
+
+    function getTerms(query = "") {
+      return query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    }
+
     function stripHtml(html) {
       const doc = new DOMParser().parseFromString(html, "text/html");
       return (doc.body?.textContent || "").replace(/\s+/g, " ").trim();
     }
 
-    function normalize(text) {
-      return (text || "").toLowerCase();
-    }
-
-    function getTerms(query) {
-      return query
-        .toLowerCase()
-        .trim()
-        .split(/\s+/)
-        .filter(Boolean);
-    }
-
-    function highlight(text, query) {
+    function highlight(text = "", query = "") {
       if (!query.trim()) return escapeHtml(text);
+
       let output = escapeHtml(text);
       for (const term of getTerms(query)) {
         const safeTerm = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -445,16 +458,18 @@
       return output;
     }
 
-    function getSnippet(content, query) {
+    function getSnippet(content = "", query = "") {
       if (!content) return "No indexed content available.";
-      const plain = content.slice(0, 2000);
-      const q = query.trim();
-      if (!q) return plain.slice(0, 160) + (plain.length > 160 ? "..." : "");
 
-      const terms = getTerms(q);
-      const lower = plain.toLowerCase();
+      const source = content.slice(0, 4000);
+      if (!query.trim()) {
+        return source.slice(0, 170) + (source.length > 170 ? "..." : "");
+      }
 
+      const terms = getTerms(query);
+      const lower = source.toLowerCase();
       let bestIndex = -1;
+
       for (const term of terms) {
         const idx = lower.indexOf(term);
         if (idx !== -1 && (bestIndex === -1 || idx < bestIndex)) {
@@ -463,15 +478,15 @@
       }
 
       if (bestIndex === -1) {
-        return plain.slice(0, 160) + (plain.length > 160 ? "..." : "");
+        return source.slice(0, 170) + (source.length > 170 ? "..." : "");
       }
 
-      const start = Math.max(0, bestIndex - 60);
-      const end = Math.min(plain.length, bestIndex + 140);
-      let snippet = plain.slice(start, end).trim();
+      const start = Math.max(0, bestIndex - 70);
+      const end = Math.min(source.length, bestIndex + 150);
+      let snippet = source.slice(start, end).trim();
 
       if (start > 0) snippet = "..." + snippet;
-      if (end < plain.length) snippet = snippet + "...";
+      if (end < source.length) snippet += "...";
 
       return snippet;
     }
@@ -481,7 +496,7 @@
 
       const terms = getTerms(query);
       const title = normalize(page.title);
-      const desc = normalize(page.description);
+      const description = normalize(page.description);
       const tags = normalize((page.tags || []).join(" "));
       const content = normalize(page.content || "");
 
@@ -490,69 +505,51 @@
       for (const term of terms) {
         if (title.includes(term)) score += 12;
         if (tags.includes(term)) score += 8;
-        if (desc.includes(term)) score += 5;
+        if (description.includes(term)) score += 5;
 
-        const occurrences = (content.match(new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g")) || []).length;
-        score += Math.min(occurrences, 10);
+        const safeTerm = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const matches = content.match(new RegExp(safeTerm, "g")) || [];
+        score += Math.min(matches.length, 10);
       }
 
       return score;
     }
 
-    async function fetchPageContent(path) {
-      try {
-        const res = await fetch(path, { cache: "no-store" });
-        if (!res.ok) {
-          return { content: "", ok: false, error: `HTTP ${res.status}` };
-        }
-        const html = await res.text();
-        return { content: stripHtml(html), ok: true };
-      } catch (err) {
-        return { content: "", ok: false, error: err.message };
+    async function loadPagesJson() {
+      const response = await fetch("pages.json", { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error(`Could not load pages.json (HTTP ${response.status})`);
       }
+      return response.json();
     }
 
-    async function buildIndex() {
-      state.indexing = true;
-      loadingState.style.display = "block";
-      grid.style.display = "none";
-      emptyState.style.display = "none";
-      statusText.textContent = "Fetching page content and building index...";
+    async function fetchPageContent(path) {
+      try {
+        const response = await fetch(path, { cache: "no-store" });
+        if (!response.ok) {
+          return { ok: false, content: "", error: `HTTP ${response.status}` };
+        }
 
-      const indexedPages = [];
-
-      for (let i = 0; i < PAGES.length; i++) {
-        const page = PAGES[i];
-        statusText.textContent = `Indexing ${i + 1} / ${PAGES.length}: ${page.path}`;
-
-        const result = await fetchPageContent(page.path);
-
-        indexedPages.push({
-          ...page,
-          content: result.content,
-          indexed: result.ok,
-          indexError: result.ok ? "" : (result.error || "Unknown error")
-        });
+        const html = await response.text();
+        return {
+          ok: true,
+          content: stripHtml(html)
+        };
+      } catch (error) {
+        return {
+          ok: false,
+          content: "",
+          error: error.message
+        };
       }
-
-      state.pages = indexedPages;
-      state.indexing = false;
-
-      loadingState.style.display = "none";
-      statusText.textContent = `Indexed ${indexedPages.filter(p => p.indexed).length} / ${indexedPages.length} pages`;
-      buildTagFilters();
-      render();
     }
 
     function buildTagFilters() {
-      const allTags = [...new Set(state.pages.flatMap(page => page.tags || []))].sort((a, b) => a.localeCompare(b));
+      const allTags = [...new Set(state.allPages.flatMap(page => page.tags || []))].sort((a, b) => a.localeCompare(b));
       const tags = ["all", ...allTags];
 
       tagFilters.innerHTML = tags.map(tag => `
-        <button
-          class="tag-btn ${state.activeTag === tag ? "active" : ""}"
-          data-tag="${escapeHtml(tag)}"
-        >
+        <button class="tag-btn ${state.activeTag === tag ? "active" : ""}" data-tag="${escapeHtml(tag)}">
           ${tag === "all" ? "All" : escapeHtml(tag)}
         </button>
       `).join("");
@@ -569,12 +566,12 @@
     function filterAndSortPages() {
       const query = state.query.trim();
 
-      let filtered = state.pages
+      let pages = state.allPages
         .map(page => ({ ...page, score: scorePage(page, query) }))
         .filter(page => {
           const matchesTag = state.activeTag === "all" || (page.tags || []).includes(state.activeTag);
-
           if (!matchesTag) return false;
+
           if (!query) return true;
 
           const haystack = [
@@ -588,23 +585,30 @@
         });
 
       if (state.sortBy === "title-asc") {
-        filtered.sort((a, b) => a.title.localeCompare(b.title));
+        pages.sort((a, b) => a.title.localeCompare(b.title));
       } else if (state.sortBy === "title-desc") {
-        filtered.sort((a, b) => b.title.localeCompare(a.title));
+        pages.sort((a, b) => b.title.localeCompare(a.title));
       } else {
-        filtered.sort((a, b) => {
+        pages.sort((a, b) => {
           if (b.score !== a.score) return b.score - a.score;
           return a.title.localeCompare(b.title);
         });
       }
 
-      return filtered;
+      return pages;
+    }
+
+    function updateStats(visiblePages) {
+      statTotal.textContent = String(state.allPages.length);
+      statIndexed.textContent = String(state.allPages.filter(page => page.indexed).length);
+      statVisible.textContent = String(visiblePages.length);
     }
 
     function render() {
       const pages = filterAndSortPages();
+      updateStats(pages);
 
-      resultCount.textContent = `${pages.length} result${pages.length === 1 ? "" : "s"} from ${state.pages.length} page${state.pages.length === 1 ? "" : "s"}`;
+      resultCount.textContent = `${pages.length} result${pages.length === 1 ? "" : "s"} from ${state.allPages.length} page${state.allPages.length === 1 ? "" : "s"}`;
 
       if (!pages.length) {
         grid.style.display = "none";
@@ -617,9 +621,9 @@
 
       grid.innerHTML = pages.map(page => {
         const snippet = getSnippet(page.content || "", state.query);
-        const indexedStatus = page.indexed
+        const badge = page.indexed
           ? `<span class="badge">Indexed</span>`
-          : `<span class="badge" style="background:rgba(239,68,68,0.12); color:#fecaca; border-color:rgba(239,68,68,0.25);">Not indexed</span>`;
+          : `<span class="badge" style="background:rgba(239,68,68,0.12);color:#fecaca;border-color:rgba(239,68,68,0.25);">Not indexed</span>`;
 
         return `
           <article class="card">
@@ -628,7 +632,7 @@
                 <h2 class="card-title">${highlight(page.title, state.query)}</h2>
                 <div class="card-path">${escapeHtml(page.path)}</div>
               </div>
-              ${indexedStatus}
+              ${badge}
             </div>
 
             <div class="card-desc">${highlight(page.description || "", state.query)}</div>
@@ -637,9 +641,9 @@
               ${(page.tags || []).map(tag => `<span class="chip">${highlight(tag, state.query)}</span>`).join("")}
             </div>
 
-            <div class="match-box">
-              <div class="match-label">Content match</div>
-              <div class="match-snippet">
+            <div class="snippet-box">
+              <div class="snippet-label">Content match</div>
+              <div class="snippet-text">
                 ${page.indexed
                   ? highlight(snippet, state.query)
                   : `This page could not be indexed${page.indexError ? `: ${escapeHtml(page.indexError)}` : "."}`
@@ -656,21 +660,60 @@
       }).join("");
     }
 
-    searchInput.addEventListener("input", (e) => {
+    async function buildIndex() {
+      loadingState.style.display = "block";
+      emptyState.style.display = "none";
+      grid.style.display = "none";
+      statusText.textContent = "Loading pages.json...";
+
+      try {
+        const pageMetadata = await loadPagesJson();
+        statusText.textContent = `Loaded ${pageMetadata.length} page entries. Indexing content...`;
+
+        const indexedPages = [];
+
+        for (let i = 0; i < pageMetadata.length; i++) {
+          const page = pageMetadata[i];
+          statusText.textContent = `Indexing ${i + 1} / ${pageMetadata.length}: ${page.path}`;
+
+          const result = await fetchPageContent(page.path);
+          indexedPages.push({
+            ...page,
+            content: result.content,
+            indexed: result.ok,
+            indexError: result.ok ? "" : (result.error || "Unknown error")
+          });
+        }
+
+        state.allPages = indexedPages;
+        buildTagFilters();
+        render();
+
+        loadingState.style.display = "none";
+        grid.style.display = state.allPages.length ? "grid" : "none";
+        statusText.textContent = `Indexed ${state.allPages.filter(page => page.indexed).length} / ${state.allPages.length} pages`;
+      } catch (error) {
+        loadingState.style.display = "block";
+        loadingState.innerHTML = `Failed to load portal data.<br><br>${escapeHtml(error.message)}`;
+        statusText.textContent = "Failed to initialize";
+        state.allPages = [];
+        updateStats([]);
+      }
+    }
+
+    searchInput.addEventListener("input", e => {
       state.query = e.target.value;
       render();
     });
 
-    sortSelect.addEventListener("change", (e) => {
+    sortSelect.addEventListener("change", e => {
       state.sortBy = e.target.value;
       render();
     });
 
-    refreshBtn.addEventListener("click", () => {
-      buildIndex();
-    });
+    refreshBtn.addEventListener("click", buildIndex);
 
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener("keydown", e => {
       if (e.key === "/" && document.activeElement !== searchInput) {
         e.preventDefault();
         searchInput.focus();
